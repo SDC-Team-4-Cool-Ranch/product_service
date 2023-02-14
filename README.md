@@ -1,2 +1,2 @@
 # product_service
-Product micro service
+Product microservice
