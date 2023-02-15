@@ -2,15 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('./middleware/logger');
 const morganMiddleware = require('./middleware/morgan.middleware');
+require('./database/index');
 
 const app = express();
 
 // Middleware
-// const router = require('./routes');
+const router = require('./routes/routes');
 
 app.use(express.json());
 app.use(morganMiddleware);
-// app.use('/', router);
+app.use('/', router);
 app.get('/', (req, res) => {
   res.send('hellloooo');
 });
