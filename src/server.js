@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const logger = require('./middleware/logger');
 const morganMiddleware = require('./middleware/morgan.middleware');
-require('./database/index');
 
 const app = express();
 
