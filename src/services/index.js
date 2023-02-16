@@ -1,21 +1,21 @@
 const {
-  queryProducts,
-  queryDetails,
-  queryStyles,
-  queryRelatedProducts,
+  productsModel,
+  detailsModel,
+  stylesModel,
+  relatedModel,
 } = require('../models');
 
 module.exports = {
   getProducts: async () => {
-    queryProducts();
+    productsModel();
   },
   getDetails: async () => {
-    queryDetails();
+    detailsModel();
   },
   getStyles: async () => {
-    queryStyles();
+    stylesModel();
   },
   getRelatedProducts: async () => {
-    queryRelatedProducts();
+    relatedModel();
   },
 };

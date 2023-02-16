@@ -4,18 +4,35 @@ const {
   getStyles,
   getRelatedProducts,
 } = require('../services');
+const logger = require('../middleware/logger');
 
 module.exports = {
   getProducts: async (req, res) => {
-    getProducts();
+    try {
+      await getProducts();
+    } catch (err) {
+      logger.error(err);
+    }
   },
   getDetails: async (req, res) => {
-    getDetails();
+    try {
+      await getDetails();
+    } catch (err) {
+      logger.error(err);
+    }
   },
   getStyles: async (req, res) => {
-    getStyles();
+    try {
+      await getStyles();
+    } catch (err) {
+      logger.error(err);
+    }
   },
   getRelatedProducts: async (req, res) => {
-    getRelatedProducts();
+    try {
+      await getRelatedProducts();
+    } catch (err) {
+      logger.error(err);
+    }
   },
 };
