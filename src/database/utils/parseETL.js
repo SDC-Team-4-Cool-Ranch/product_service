@@ -49,21 +49,48 @@ const createTable = async (file) => {
 
 const parserETL = async (file) => {
   const csvPath = path.join(csvDirectory, file);
-  const tableName = mapping.tableNames[file];
-  const output = [];
-  const stream = fs.createReadStream(csvPath);
+  const readStream = fs.createReadStream(csvPath);
+  const writeStream = fs.createWriteStream(
+    path.join(csvDirectory, `clean${file}`)
+  );
 
-  stream.pipe(csv({ quote: '"' })).on('data', (row) => {});
+  readStream
+    .pipe(csv({ headers: true, quote: "'" }))
+    .on('headers', (headers) => {
+      const row = headers.join(',');
+      writeStream.write(`${row}\n`);
+    })
+    .on('data', (data) => {
+      const row = Object.values(data).join(',');
+      writeStream.write(`${row}\n`);
+    })
+    .on('end', async () => {
+      const tableName = mapping.tableNames[file];
+      try {
+        const copyQuery = `COPY ${tableName} FROM '${csvDirectory}/clean${file}' WITH (FORMAT csv, HEADER true, NULL 'null')`;
+        await pool.query(copyQuery, [], (err, res) => {
+          if (err) {
+            logger.error(err);
+          } else logger.info(res);
+        });
+      } catch (err) {
+        logger.error(err);
+      }
+    })
+    .on('error', (err) => {
+      logger.error(err);
+    });
 };
 
 const processAll = async () => {
   const [productParent, styleParent, ...childTables] = csvFiles;
-  // await createTable(productParent);
-  parserETL(productParent);
-  // await createTable(styleParent);
-  // // Not sure why it's asynchronous when all are in promises
-  // const creationPromises = childTables.map((file) => createTable(file));
-  // await Promise.all(creationPromises);
+  await createTable(productParent);
+  await createTable(styleParent);
+  // Not sure why it's asynchronous when all are in promises
+  const creationPromises = childTables.map((file) => createTable(file));
+  await Promise.all(creationPromises);
+  // Too lazy to do a loop, just insert file name here to copy
+  parserETL('photos.csv');
 };
 
 processAll();
