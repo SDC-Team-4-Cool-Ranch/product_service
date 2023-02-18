@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  app:
+    image: product_service:latest
+    container_name: product_service_container
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./app:/app
