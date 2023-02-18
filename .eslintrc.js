@@ -13,5 +13,6 @@ module.exports = {
     'comma-dangle': 0,
     'implicit-arrow-linebreak': 0,
     'valid-typeof': 0,
+    camelcase: 0,
   },
 };
