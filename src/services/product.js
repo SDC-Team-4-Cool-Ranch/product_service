@@ -12,11 +12,42 @@ module.exports = {
       throw new Error('Failed to retrieve products in services');
     }
   },
-  getDetails: async () => {
-    productModel.getDetails();
+  getDetails: async (product_id) => {
+    try {
+      const model = await productModel.getDetails(product_id);
+      if (!model.rowCount) return null;
+
+      const { rows } = model;
+      const [product] = rows;
+
+      const productDetails = {
+        id: product.id,
+        name: product.name,
+        slogan: product.slogan,
+        description: product.description,
+        category: product.category,
+        default_price: product.default_price,
+        features: rows.map((row) => ({
+          feature: row.feature,
+          value: row.value,
+        })),
+      };
+      return productDetails;
+    } catch (err) {
+      logger.error(err);
+      throw new Error('Failed to retrieve product details in services');
+    }
   },
-  getStyles: async () => {
-    productModel.getStyles();
+  getStyles: async (product_id) => {
+    try {
+      const model = await productModel.getStyles(product_id);
+      if (!model.rowCount) return null;
+      const { rows } = model;
+      console.log(rows);
+    } catch (err) {
+      logger.error(err);
+      throw new Error('Failed to retrieve styles in services');
+    }
   },
   getRelatedProducts: async (product_id) => {
     try {

@@ -19,16 +19,29 @@ module.exports = {
   },
   getDetails: async (req, res) => {
     try {
-      await productService.getDetails();
+      const { product_id } = req.params;
+      const productDetails = await productService.getDetails(product_id);
+      if (!productDetails) {
+        return res.status(404).send({ message: 'Product not found' });
+      }
+
+      return res.status(200).send(productDetails);
     } catch (err) {
       logger.error(err);
+      return res.status(500).send({ error: 'Failed fetching product details' });
     }
   },
   getStyles: async (req, res) => {
     try {
-      await productService.getStyles();
+      const { product_id } = req.params;
+      const styles = await productService.getStyles(product_id);
+      if (!styles) {
+        return res.status(404).send({ message: 'Styles not found' });
+      }
+      return res.status(200).send(styles);
     } catch (err) {
       logger.error(err);
+      return res.status(500).send({ error: 'Failed fetching styles' });
     }
   },
   getRelatedProducts: async (req, res) => {

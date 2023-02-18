@@ -14,5 +14,6 @@ module.exports = {
     'implicit-arrow-linebreak': 0,
     'valid-typeof': 0,
     camelcase: 0,
+    'max-len': 0,
   },
 };
