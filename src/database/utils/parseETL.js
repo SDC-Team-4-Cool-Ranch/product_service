@@ -50,14 +50,10 @@ const createTable = async (file) => {
 const parserETL = async (file) => {
   const csvPath = path.join(csvDirectory, file);
   const tableName = mapping.tableNames[file];
-  const stream = fs.createReadStream(csvPath).pipe(csv({ quote: '"' }));
+  const output = [];
+  const stream = fs.createReadStream(csvPath);
 
-  const columns = await new Promise((resolve, reject) => {
-    stream.on('headers', (headers) => {
-      resolve(headers);
-    });
-    stream.on('error', reject);
-  });
+  stream.pipe(csv({ quote: '"' })).on('data', (row) => {});
 };
 
 const processAll = async () => {
