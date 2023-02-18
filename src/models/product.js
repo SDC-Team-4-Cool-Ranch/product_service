@@ -31,7 +31,7 @@ module.exports = {
   getStyles: async (product_id) => {
     try {
       const results = await pool.query(
-        'SELECT s.*, p.url, p.thumbnail_url, k.size, k.quantity FROM styles s LEFT JOIN skus k ON s.id = k.style_id LEFT JOIN photos p ON s.id = p.style_id WHERE s.product_id = $1;',
+        'SELECT s.*, p.url, p.thumbnail_url, k.id as sku_id, k.size, k.quantity FROM styles s LEFT JOIN skus k ON s.id = k.style_id LEFT JOIN photos p ON s.id = p.style_id WHERE s.product_id = $1;',
         [product_id]
       );
       return results;

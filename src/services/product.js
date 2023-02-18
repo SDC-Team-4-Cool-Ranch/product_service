@@ -43,7 +43,44 @@ module.exports = {
       const model = await productModel.getStyles(product_id);
       if (!model.rowCount) return null;
       const { rows } = model;
-      console.log(rows);
+      const styles = {};
+
+      for (let i = 0; i < rows.length; i += 1) {
+        const currRow = rows[i];
+        if (!styles[currRow.id]) {
+          styles[currRow.id] = {
+            ...currRow,
+            photos: [],
+            skus: {},
+          };
+        }
+
+        styles[currRow.id].photos.push({
+          url: currRow.url,
+          thumbnail_url: currRow.thumbnail_url,
+        });
+
+        styles[currRow.id].skus[currRow.sku_id] = {
+          size: currRow.size,
+          quantity: currRow.quantity,
+        };
+      }
+
+      const result = Object.values(styles);
+      const keysToRemove = [
+        'url',
+        'thumbnail_url',
+        'sku_id',
+        'quantity',
+        'size',
+      ];
+      result.forEach((style, idx) => {
+        const filtered = Object.fromEntries(
+          Object.entries(style).filter(([key]) => !keysToRemove.includes(key))
+        );
+        result[idx] = filtered;
+      });
+      return result;
     } catch (err) {
       logger.error(err);
       throw new Error('Failed to retrieve styles in services');
