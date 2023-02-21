@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ProductSchema = new mongoose.Schema({
-  id: { type: Number, required: true, unique: true },
+  id: { type: Number, required: true, unique: true, index: true },
   name: { type: String },
   slogan: { type: String },
   description: { type: String },
@@ -16,9 +16,11 @@ const ProductSchema = new mongoose.Schema({
 });
 
 const StyleSchema = new mongoose.Schema({
+  id: Number,
   product_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Number,
     ref: 'Product',
+    index: true,
   },
   name: { type: String },
   sale_price: { type: String },
@@ -29,10 +31,13 @@ const StyleSchema = new mongoose.Schema({
 });
 
 const RelatedProductsSchema = new mongoose.Schema({
-  product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-  related_product_ids: [
-    { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-  ],
+  id: Number,
+  product_id: { type: Number, ref: 'Product', index: true },
+  related_product_ids: [{ type: Number, ref: 'Product' }],
 });
 
-export { ProductSchema, StyleSchema, RelatedProductsSchema };
+const Product = mongoose.model('Product', ProductSchema);
+const Style = mongoose.model('Styles', StyleSchema);
+const Related = mongoose.model('Related', RelatedProductsSchema);
+
+module.exports = { Product, Style, Related };

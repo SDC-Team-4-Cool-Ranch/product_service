@@ -15,5 +15,6 @@ module.exports = {
     'valid-typeof': 0,
     camelcase: 0,
     'max-len': 0,
+    'no-restricted-syntax': 0,
   },
 };
