@@ -11,3 +11,5 @@ db.on('error', logger.error.bind(console, 'Connection error'));
 db.on('open', () => {
   logger.info('CONNECTED TO MONGO');
 });
+
+module.exports = db;
