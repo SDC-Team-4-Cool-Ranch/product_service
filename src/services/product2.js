@@ -33,7 +33,7 @@ module.exports = {
   getRelatedProducts: async (product_id) => {
     try {
       const model = await mongoModel.getRelatedProducts(product_id);
-      return model;
+      return model[0].related_product_ids;
     } catch (err) {
       logger.error(err);
       throw new Error('Failed to retrieve related products in services');

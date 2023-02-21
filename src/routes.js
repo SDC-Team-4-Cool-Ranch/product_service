@@ -1,10 +1,13 @@
 const router = require('express').Router();
 // Import Mongo or PG
-const { mongoController } = require('./controllers');
+const { productController } = require('./controllers');
 
-router.get('/products', mongoController.getProducts);
-router.get('/products/:product_id', mongoController.getDetails);
-router.get('/products/:product_id/styles', mongoController.getStyles);
-router.get('/products/:product_id/related', mongoController.getRelatedProducts);
+router.get('/products', productController.getProducts);
+router.get('/products/:product_id', productController.getDetails);
+router.get('/products/:product_id/styles', productController.getStyles);
+router.get(
+  '/products/:product_id/related',
+  productController.getRelatedProducts
+);
 
 module.exports = router;

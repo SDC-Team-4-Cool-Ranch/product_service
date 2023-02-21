@@ -1,5 +1,5 @@
 // COMMAND TO COPY TO DATABASE FIRST:
-// mongoimport --type csv --headerline --db products --collection products --file 'src/database/csv/product.csv'
+// mongoimport --type csv --headerline --db products --collection related --file 'src/database/csv/related.csv'
 
 // Aggregate products
 // db.products.aggregate(
@@ -61,7 +61,7 @@
 //     {
 //       $project: {
 //         id: 1,
-//         product_id: 1,
+//         product_id: '$productId',
 //         name: 1,
 //         sale_price: 1,
 //         original_price: 1,
@@ -94,3 +94,21 @@
 //   ],
 //   { allowDiskUse: true }
 // );
+
+// Aggregate related
+// db.related.aggregate([
+//   {
+//     $group: {
+//       _id: '$current_product_id',
+//       related_product_ids: { $push: '$related_product_id' },
+//     },
+//   },
+//   {
+//     $project: {
+//       _id: 0,
+//       product_id: '$_id',
+//       related_product_ids: 1,
+//     },
+//   },
+//   { $out: 'related_products' },
+// ]);
