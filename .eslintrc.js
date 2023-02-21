@@ -16,5 +16,6 @@ module.exports = {
     camelcase: 0,
     'max-len': 0,
     'no-restricted-syntax': 0,
+    'func-names': 0,
   },
 };
