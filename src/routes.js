@@ -1,4 +1,5 @@
 const router = require('express').Router();
+// Import Mongo or PG
 const { productController } = require('./controllers');
 
 router.get('/products', productController.getProducts);

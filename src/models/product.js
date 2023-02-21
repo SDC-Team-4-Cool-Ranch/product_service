@@ -1,4 +1,4 @@
-const pool = require('../database/pg');
+const pool = require('../database/pg/pg');
 const logger = require('../middleware/logger');
 
 module.exports = {

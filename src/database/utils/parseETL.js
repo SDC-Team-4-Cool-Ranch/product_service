@@ -62,7 +62,7 @@ const parserETL = async (file) => {
     })
     .on('data', (data) => {
       const row = Object.values(data).join(',');
-      writeStream.write(`${row}\n`);
+      return writeStream.write(`${row}\n`);
     })
     .on('end', async () => {
       const tableName = mapping.tableNames[file];
@@ -82,6 +82,27 @@ const parserETL = async (file) => {
     });
 };
 
+const writePhotos = () => {
+  const photoPath = path.join(csvDirectory, 'photos.csv');
+  const readStream = fs.createReadStream(photoPath);
+  const writeStream = fs.createWriteStream(
+    path.join(csvDirectory, 'cleanphotos.csv')
+  );
+  writeStream.write('id,style_id,url,thumbnail_url\n');
+  readStream.pipe(csv({ quote: "'" })).on('data', async (chunk) => {
+    const copy = { ...chunk };
+    copy.id = copy.id.replaceAll(/\D/g, '');
+    copy.styleId = copy.styleId.replaceAll(/\D/g, '');
+    copy.url = copy.url.replaceAll(/"|\\/g, '');
+    copy.thumbnail_url = copy.thumbnail_url.replaceAll(/"|\\/g, '');
+    copy.url = `"${copy.url}"`;
+    copy.thumbnail_url = `"${copy.thumbnail_url}"`;
+    writeStream.write(
+      `${copy.id},${copy.styleId},${copy.url},${copy.thumbnail_url}\n`
+    );
+  });
+};
+
 const processAll = async () => {
   const [productParent, styleParent, ...childTables] = csvFiles;
   await createTable(productParent);
@@ -90,7 +111,9 @@ const processAll = async () => {
   const creationPromises = childTables.map((file) => createTable(file));
   await Promise.all(creationPromises);
   // Too lazy to do a loop, just insert file name here to copy
-  parserETL('photos.csv');
+  parserETL('product.csv');
+  // For photos
+  writePhotos();
 };
 
 processAll();

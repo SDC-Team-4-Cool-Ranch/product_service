@@ -89,7 +89,9 @@ module.exports = {
   getRelatedProducts: async (product_id) => {
     try {
       const model = await productModel.getRelatedProducts(product_id);
-      const relatedProductIds = model.rows.map((row) => row.related_product_id);
+      const relatedProductIds = model.rows.map(
+        ({ related_product_id }) => related_product_id
+      );
       return relatedProductIds;
     } catch (err) {
       logger.error(err);
