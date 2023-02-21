@@ -4,18 +4,11 @@ export const options = {
   scenarios: {
     stress: {
       executor: 'ramping-arrival-rate',
-      preAllocatedVUs: 500,
+      preAllocatedVUs: 1000,
       timeUnit: '1s',
       stages: [
-        { duration: '2m', target: 10 }, // below normal load
-        { duration: '5m', target: 10 },
-        { duration: '2m', target: 20 }, // normal load
-        { duration: '5m', target: 20 },
-        { duration: '2m', target: 30 }, // around the breaking point
-        { duration: '5m', target: 30 },
-        { duration: '2m', target: 40 }, // beyond the breaking point
-        { duration: '5m', target: 40 },
-        { duration: '10m', target: 0 }, // scale down. Recovery stage.
+        { duration: '10s', target: 1000 },
+        { duration: '30s', target: 500 },
       ],
     },
   },
