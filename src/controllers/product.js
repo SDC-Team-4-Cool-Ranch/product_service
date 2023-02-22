@@ -24,9 +24,6 @@ module.exports = {
     try {
       const { product_id } = req.params;
       const productDetails = await productService.getDetails(product_id);
-      if (!productDetails) {
-        return res.status(404).send({ message: 'Product not found' });
-      }
 
       await setCache(req.path, productDetails);
       return res.status(200).send(productDetails);
@@ -39,9 +36,6 @@ module.exports = {
     try {
       const { product_id } = req.params;
       const styles = await productService.getStyles(product_id);
-      if (!styles) {
-        return res.status(404).send({ message: 'Styles not found' });
-      }
 
       await setCache(req.path, styles);
       return res.status(200).send(styles);
