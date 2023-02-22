@@ -16,5 +16,8 @@ export const options = {
 
 export default function () {
   const productId = Math.floor(Math.random() * 1000011) + 1;
-  http.get(`http://localhost:8000/products/${productId}`);
+  const param = Math.floor(Math.random() * 20 + 1);
+  http.get(
+    `http://localhost:8000/products/${productId}?count=${param}&page=${param}`
+  );
 }
