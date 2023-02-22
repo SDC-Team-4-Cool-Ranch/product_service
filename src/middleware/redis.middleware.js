@@ -18,7 +18,7 @@ const redisMiddleware = async (req, res, next) => {
     const getCache = promisify(redisClient.get).bind(redisClient);
     const cache = await getCache(cacheKey);
     if (cache) {
-      return res.status(200).send(cache);
+      return res.status(200).send(JSON.parse(cache));
     }
 
     return next();

@@ -54,16 +54,19 @@ module.exports = {
             skus: {},
           };
         }
+        if (currRow.url && currRow.thumbnail_url) {
+          styles[currRow.id].photos.push({
+            url: currRow.url,
+            thumbnail_url: currRow.thumbnail_url,
+          });
+        }
 
-        styles[currRow.id].photos.push({
-          url: currRow.url,
-          thumbnail_url: currRow.thumbnail_url,
-        });
-
-        styles[currRow.id].skus[currRow.sku_id] = {
-          size: currRow.size,
-          quantity: currRow.quantity,
-        };
+        if (currRow.size && currRow.quantity) {
+          styles[currRow.id].skus[currRow.sku_id] = {
+            size: currRow.size,
+            quantity: currRow.quantity,
+          };
+        }
       }
 
       const result = Object.values(styles);
