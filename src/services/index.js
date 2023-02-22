@@ -1,2 +1,2 @@
 exports.productService = require('./product');
-exports.mongoService = require('./product2');
+exports.mongoService = require('./mongo');

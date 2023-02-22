@@ -84,8 +84,8 @@ CREATE INDEX cart_id_idx on cart(id);
 -- FROM '/Users/davidzhang/Desktop/HackReactor/RFP2212/product_service/src/database/csv/skus.csv'
 -- WITH (FORMAT csv, HEADER true, NULL 'null');
 -- COPY photos
--- FROM '/Users/davidzhang/Desktop/HackReactor/RFP2212/product_service/src/database/csv/photos.csv'
--- WITH (FORMAT csv, HEADER true, NULL 'null');
+-- FROM
+--     '/Users/davidzhang/Desktop/HackReactor/RFP2212/product_service/src/database/csv/cleanphotos.csv' WITH (FORMAT csv, HEADER true, NULL 'null');
 -- COPY related_products
 -- FROM '/Users/davidzhang/Desktop/HackReactor/RFP2212/product_service/src/database/csv/related.csv'
 -- WITH (FORMAT csv, HEADER true, NULL 0);

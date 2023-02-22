@@ -1,2 +1,2 @@
 exports.productController = require('./product');
-exports.mongoController = require('./product2');
+exports.mongoController = require('./mongo');
