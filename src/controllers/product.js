@@ -1,5 +1,6 @@
 const { productService } = require('../services');
 const logger = require('../middleware/logger');
+const setCache = require('../lib/redisCache');
 
 module.exports = {
   getProducts: async (req, res) => {
@@ -11,6 +12,8 @@ module.exports = {
 
     try {
       const products = await productService.getProducts({ page, count });
+
+      await setCache(req.path, products);
       return res.status(200).send(products);
     } catch (err) {
       logger.error(err);
@@ -25,6 +28,7 @@ module.exports = {
         return res.status(404).send({ message: 'Product not found' });
       }
 
+      await setCache(req.path, productDetails);
       return res.status(200).send(productDetails);
     } catch (err) {
       logger.error(err);
@@ -38,6 +42,8 @@ module.exports = {
       if (!styles) {
         return res.status(404).send({ message: 'Styles not found' });
       }
+
+      await setCache(req.path, styles);
       return res.status(200).send(styles);
     } catch (err) {
       logger.error(err);
@@ -51,6 +57,7 @@ module.exports = {
         product_id
       );
 
+      await setCache(req.path, relatedProducts);
       return res.status(200).send(relatedProducts);
     } catch (err) {
       logger.error(err);

@@ -18,13 +18,13 @@ const redisMiddleware = async (req, res, next) => {
     const getCache = promisify(redisClient.get).bind(redisClient);
     const cache = await getCache(cacheKey);
     if (cache) {
-      logger.info(cache);
+      return res.status(200).send(cache);
     }
 
-    next();
+    return next();
   } catch (err) {
     logger.error(`Redis not connected: ${err}`);
-    next();
+    return next();
   }
 };
 
