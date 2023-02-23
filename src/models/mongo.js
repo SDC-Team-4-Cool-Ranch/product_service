@@ -7,7 +7,6 @@ module.exports = {
     const skip = count * (page - 1);
     try {
       const result = await Product.find().skip(skip).limit(count).exec();
-      logger.info('Retrieve product success in models');
       return result;
     } catch (err) {
       logger.error(err);
@@ -17,7 +16,6 @@ module.exports = {
   getDetails: async (product_id) => {
     try {
       const result = await Product.find({ id: product_id }).exec();
-      logger.info(result);
       return result;
     } catch (err) {
       logger.error(err);
@@ -27,7 +25,6 @@ module.exports = {
   getStyles: async (product_id) => {
     try {
       const result = await Style.find({ product_id }).exec();
-      logger.info('Retrieve style success in models');
       return result;
     } catch (err) {
       logger.error(err);
@@ -39,7 +36,6 @@ module.exports = {
       const result = await Related.find({
         product_id,
       }).exec();
-      logger.info('Retrieve related products success in models');
       return result;
     } catch (err) {
       logger.error(err);
