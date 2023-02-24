@@ -1,8 +1,8 @@
-FROM alpine:latest
+FROM node:alpine
 
 WORKDIR /app
 
-RUN apk add --no-cache nodejs npm
+RUN apk add --no-cache nodejs npm redis
 
 COPY package*.json ./
 
