@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS related_products (
     product_id INTEGER,
     related_product_id INTEGER,
     FOREIGN KEY (product_id) REFERENCES products(id),
-    FOREIGN KEY (related_product_id) REFERENCES products(product_id)
+    FOREIGN KEY (related_product_id) REFERENCES products(id)
 );
 
 CREATE INDEX related_product_id_idx on related_products(product_id);
